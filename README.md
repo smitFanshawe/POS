@@ -2,6 +2,17 @@
 
 A modern, feature-rich Point of Sale (POS) system built with React Native and Expo, designed for convenience stores and small retail businesses.
 
+## 🔑 Demo Login Credentials
+
+For testing and demonstration purposes, use the following credentials:
+
+```
+Email: admin@gmail.com
+Password: adminS
+```
+
+> **Note**: These are demo credentials for evaluation purposes. In production, use secure authentication practices.
+
 ## 🚀 Features
 
 ### 📱 Core Functionality
