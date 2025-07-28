@@ -49,6 +49,7 @@ Before running this application, make sure you have the following installed:
 - **Node.js** (v16 or higher) - [Download here](https://nodejs.org/)
 - **npm** or **yarn** - Package manager (comes with Node.js)
 - **Expo CLI** - For running the development server
+- **Watchman** - File watching service (required for React Native)
 - **Git** - Version control system
 
 ### Development Environment
@@ -78,12 +79,35 @@ cd POS
 npm install
 ```
 
-### 3. Install Expo CLI (if not already installed)
+### 3. Install Watchman (File Watching Service)
+
+#### For macOS:
+```bash
+brew install watchman
+```
+
+#### For Linux:
+```bash
+# Ubuntu/Debian
+sudo apt-get install watchman
+
+# Or build from source - see: https://facebook.github.io/watchman/docs/install.html
+```
+
+#### For Windows:
+```bash
+# Install via Chocolatey
+choco install watchman
+
+# Or download from: https://facebook.github.io/watchman/docs/install.html#windows
+```
+
+### 4. Install Expo CLI (if not already installed)
 ```bash
 npm install -g @expo/cli
 ```
 
-### 4. Firebase Configuration
+### 5. Firebase Configuration
 The app uses Firebase for backend services. The configuration is already set up, but you may need to:
 
 1. **Enable Authentication** in your Firebase Console
@@ -97,14 +121,14 @@ The app uses Firebase for backend services. The configuration is already set up,
 
 3. **Configure Firestore Security Rules** (see Firebase Setup section below)
 
-### 5. Start the Development Server
+### 6. Start the Development Server
 ```bash
 npm start
 # or
 expo start
 ```
 
-### 6. Run on Device/Simulator
+### 7. Run on Device/Simulator
 - **iOS Simulator**: Press `i` in the terminal or scan QR code with Camera app
 - **Android Emulator**: Press `a` in the terminal or scan QR code with Expo Go
 - **Physical Device**: Install Expo Go app and scan the QR code
@@ -286,6 +310,21 @@ expo install --fix
 npx expo run:android
 ```
 
+#### Watchman Issues
+```
+Error: Watchman error: std::__1::system_error: open: /usr/local/var/run/watchman/state: Permission denied
+```
+**Solution**:
+```bash
+# macOS
+sudo chown -R $(whoami) /usr/local/var/run/watchman
+watchman shutdown-server
+
+# Or reinstall Watchman
+brew uninstall watchman
+brew install watchman
+```
+
 ## 🤝 Contributing
 
 1. Fork the repository
@@ -298,11 +337,19 @@ npx expo run:android
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 👨‍💻 Author
+## � D evelopment Team
 
-**Smit Patel**
+This project was developed by a dedicated team of developers:
+
+**Smit Patel** - Lead Developer
 - GitHub: [@smitFanshawe](https://github.com/smitFanshawe)
 - Project: [ConveniPOS](https://github.com/smitFanshawe/POS)
+
+**Keyul Patel** - Developer
+- Contributed to core functionality and UI components
+
+**Krina Patel** - Developer  
+- Contributed to authentication system and database integration
 
 ## 🙏 Acknowledgments
 
