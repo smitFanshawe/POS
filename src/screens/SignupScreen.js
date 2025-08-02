@@ -119,6 +119,7 @@ const SignupScreen = ({ navigation }) => {
           value={formData[field]}
           onChangeText={(text) => updateFormData(field, text)}
           placeholder={placeholder}
+          placeholderTextColor={COLORS.textSecondary}
           {...options}
         />
         {field === 'password' && (
@@ -364,6 +365,8 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: COLORS.text,
     marginLeft: 12,
+    minHeight: 20,
+    paddingVertical: 0,
   },
   eyeButton: {
     padding: 4,

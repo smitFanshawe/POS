@@ -28,17 +28,23 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      if (user) {
-        // User is signed in
-        const userProfile = await getUserProfile(user.uid);
-        setUser({
-          uid: user.uid,
-          email: user.email,
-          displayName: user.displayName,
-          ...userProfile,
-        });
-      } else {
-        // User is signed out
+      try {
+        if (user) {
+          // User is signed in
+          const userProfile = await getUserProfile(user.uid);
+          setUser({
+            uid: user.uid,
+            email: user.email,
+            displayName: user.displayName,
+            ...userProfile,
+          });
+        } else {
+          // User is signed out
+          setUser(null);
+        }
+      } catch (error) {
+        console.error('Auth state change error:', error);
+        // Set user to null on error
         setUser(null);
       }
       
@@ -128,14 +134,16 @@ export const AuthProvider = ({ children }) => {
   const logout = async () => {
     try {
       setLoading(true);
-      await signOut(auth);
       
-      // Clear stored data
+      // Clear stored data first
       await AsyncStorage.multiRemove(['lastLogin', 'userPreferences']);
+      
+      // Sign out from Firebase
+      await signOut(auth);
       
     } catch (error) {
       console.error('Logout error:', error);
-      throw error;
+      // Don't throw error during logout, just log it
     } finally {
       setLoading(false);
     }

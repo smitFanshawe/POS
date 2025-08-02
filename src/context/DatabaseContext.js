@@ -35,13 +35,20 @@ export const DatabaseProvider = ({ children }) => {
   const [isReady, setIsReady] = useState(false);
   const [categories, setCategories] = useState([]);
   const [items, setItems] = useState([]);
+  const [unsubscribeFunctions, setUnsubscribeFunctions] = useState([]);
   const { user } = useAuth();
 
   useEffect(() => {
     if (user) {
       initializeFirestore();
     } else {
-      // Reset data when user logs out
+      // Clean up listeners and reset data when user logs out
+      unsubscribeFunctions.forEach(unsubscribe => {
+        if (typeof unsubscribe === 'function') {
+          unsubscribe();
+        }
+      });
+      setUnsubscribeFunctions([]);
       setCategories([]);
       setItems([]);
       setIsReady(false);
@@ -165,6 +172,9 @@ export const DatabaseProvider = ({ children }) => {
       // Sort by name in JavaScript
       categoriesData.sort((a, b) => (a.name || '').localeCompare(b.name || ''));
       setCategories(categoriesData);
+    }, (error) => {
+      console.error('Categories listener error:', error);
+      // Don't throw error, just log it
     });
 
     // Listen to items changes (no orderBy to avoid index requirement)
@@ -182,12 +192,22 @@ export const DatabaseProvider = ({ children }) => {
       // Sort by name in JavaScript
       itemsData.sort((a, b) => (a.name || '').localeCompare(b.name || ''));
       setItems(itemsData);
+    }, (error) => {
+      console.error('Items listener error:', error);
+      // Don't throw error, just log it
     });
+
+    // Store unsubscribe functions for cleanup
+    const unsubscribes = [unsubscribeCategories, unsubscribeItems];
+    setUnsubscribeFunctions(unsubscribes);
 
     // Return cleanup function
     return () => {
-      unsubscribeCategories();
-      unsubscribeItems();
+      unsubscribes.forEach(unsubscribe => {
+        if (typeof unsubscribe === 'function') {
+          unsubscribe();
+        }
+      });
     };
   };
 
