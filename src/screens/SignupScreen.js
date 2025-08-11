@@ -115,11 +115,16 @@ const SignupScreen = ({ navigation }) => {
       <View style={[styles.inputContainer, errors[field] && styles.inputError]}>
         <Ionicons name={icon} size={20} color={COLORS.textSecondary} />
         <TextInput
-          style={styles.textInput}
+          style={[
+            styles.textInput,
+            (field === 'password' || field === 'confirmPassword') && styles.passwordInput
+          ]}
           value={formData[field]}
           onChangeText={(text) => updateFormData(field, text)}
           placeholder={placeholder}
           placeholderTextColor={COLORS.textSecondary}
+          autoCapitalize="none"
+          autoCorrect={false}
           {...options}
         />
         {field === 'password' && (
@@ -350,12 +355,12 @@ const styles = StyleSheet.create({
   inputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: COLORS.background,
+    backgroundColor: '#FFFFFF',
     borderRadius: 12,
     paddingHorizontal: 16,
     paddingVertical: 12,
     borderWidth: 1,
-    borderColor: 'transparent',
+    borderColor: '#E0E0E0',
   },
   inputError: {
     borderColor: COLORS.error,
@@ -367,6 +372,12 @@ const styles = StyleSheet.create({
     marginLeft: 12,
     minHeight: 20,
     paddingVertical: 0,
+    backgroundColor: 'transparent',
+  },
+  passwordInput: {
+    color: '#000000',
+    fontSize: 16,
+    fontWeight: '500',
   },
   eyeButton: {
     padding: 4,

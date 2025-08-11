@@ -44,3 +44,8 @@ firestore-debug.log
 # IDE
 .vscode/
 .idea/
+
+# Presentation files (local only)
+PRESENTATION_GUIDE.md
+PRESENTATION_QUICK_REFERENCE.md
+*PRESENTATION*
